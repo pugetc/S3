@@ -13,10 +13,14 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && npm cache clear \
     && rm -rf ~/.node-gyp \
-    && rm -rf /tmp/npm-*
+    && rm -rf /tmp/npm-* \
+    && groupadd -r -g 1001 scality \
+    && useradd -u 1001 -g 1001 -d /usr/src/app -r scality \
+    && chown -R scality:scality /usr/src/app
 
 VOLUME ["/usr/src/app/localData","/usr/src/app/localMetadata"]
 
+USER scality
 ENTRYPOINT ["/usr/src/app/docker-entrypoint.sh"]
 CMD [ "npm", "start" ]
 
