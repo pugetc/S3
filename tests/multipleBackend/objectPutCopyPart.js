@@ -132,6 +132,7 @@ errorPutCopyPart) {
         assert.ifError(err, 'Error putting source object or initiate MPU');
         const testUploadId = json.InitiateMultipartUploadResult.
             UploadId[0];
+        console.log("!!RESONSE JSON", json.InitiateMultipartUploadResult);
         const copyPartParams = {
             bucketName,
             namespace,
@@ -202,6 +203,7 @@ function testSuite() {
         (keys, uploadId) => {
             assert.strictEqual(ds.length, 2);
             const awsReq = getAwsParams(keys.destObjName, uploadId);
+            console.log("UploadID", uploadId);
             s3.listParts(awsReq, (err, partList) => {
                 assertPartList(partList, uploadId);
                 s3.abortMultipartUpload(awsReq, err => {
